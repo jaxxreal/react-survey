@@ -15,7 +15,7 @@ Icon.propTypes = {
     glyph: PropTypes.string.isRequired,
     width: PropTypes.number,
     height: PropTypes.number,
-    className: PropTypes.oneOf([
+    className: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.array,
         PropTypes.object

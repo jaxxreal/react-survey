@@ -1,10 +1,11 @@
 import React, { PropTypes, Component } from 'react';
 import cx from 'classnames';
-// import _bindAll from 'lodash/bindAll';
-// import ReactSwipe from 'react-swipe';
-import TouchSelect from '../../components/TouchSelect';
+import _bindAll from 'lodash/bindAll';
 
+import TouchSelect from '../../components/TouchSelect';
 import Icon from '../../components/Icon';
+import SurveyDialog from './SurveyDialog';
+import SurveySplash from './SurveySplash';
 
 const iconSize = {
     height: 40,
@@ -15,9 +16,62 @@ export class Survey extends Component {
 
     constructor(props) {
         super(props);
+        const questions = props.metadata.statement.slice();
         this.state = {
-            selectedIdx: 0
+            answers: [],
+            questions,
+            isCustomAnswerDialogOpen: false,
+            currentQuestion: questions.shift(),
         };
+        _bindAll(this, [
+            'onToggleAnswerDialog',
+            'onSubmitAnswer',
+            'onCustomAnswerDialogClose',
+            'onRestartSurvey',
+            'onSkipQuestion',
+        ]);
+    }
+
+    onSubmitAnswer(answer) {
+        const newAnswer = [this.state.currentQuestion, answer];
+
+        const answers = this.state.answers.slice();
+        const questions = this.state.questions.slice();
+        answers.push(newAnswer);
+
+        const currentQuestion = questions.shift();
+
+        this.setState({
+            questions,
+            answers,
+            currentQuestion,
+        });
+
+        if (!currentQuestion) {
+            console.log(answers);
+        }
+        console.log(newAnswer);
+    }
+
+    onCustomAnswerDialogClose() {
+        this.setState({ isCustomAnswerDialogOpen: false });
+    }
+
+    onToggleAnswerDialog() {
+        this.setState({ isCustomAnswerDialogOpen: !this.state.isCustomAnswerDialogOpen });
+    }
+
+    onRestartSurvey() {
+        const questions = this.props.metadata.statement.slice();
+        this.setState({
+            answers: [],
+            questions,
+            currentQuestion: questions.shift(),
+        });
+    }
+
+    onSkipQuestion() {
+        this.onSubmitAnswer('skipped');
     }
 
     render() {
@@ -31,39 +85,51 @@ export class Survey extends Component {
                 notsurelabel,
             },
         } = this.props;
+        const { currentQuestion = '', answers } = this.state;
+
         return (
             <div className="survey" style={ { backgroundColor } }>
                 <h1 className="survey__question">{ question }</h1>
                 <div className="drops">
-                    { statement.map((str) => (
+                    { statement.map((str, idx) => (
                         <div
                             key={ str }
-                            className={ cx('drops__item', { drops__item_checked: false }) }
+                            className={ cx('drops__item', { drops__item_checked: !!answers[idx] }) }
                         />
                     )) }
                 </div>
                 <TouchSelect
-                    onAnswer={ answer => console.log(answer) }
-                    question={ statement[0] }
+                    onAnswer={ this.onSubmitAnswer }
+                    question={ currentQuestion }
                     options={ [yeslabel, nolabel, notsurelabel] }
                 />
                 <div className="survey__footer">
                     <div className="survey__footer-item">
-                        <button className="btn">
+                        <button onClick={ this.onToggleAnswerDialog } className="btn">
                             <Icon glyph="speech-bubble" { ...iconSize }/>
                         </button>
                     </div>
                     <div className="survey__footer-item">
-                        <button className="btn">
+                        <button onClick={ this.onRestartSurvey } className="btn">
                             <Icon glyph="muted" { ...iconSize }/>
                         </button>
                     </div>
                     <div className="survey__footer-item">
-                        <button className="btn">
+                        <button onClick={ this.onSkipQuestion } className="btn">
                             <Icon glyph="right-arrow-circle" { ...iconSize }/>
                         </button>
                     </div>
                 </div>
+                <SurveySplash
+                    isOpen={ currentQuestion.length === 0 }
+                    onClick={ this.onRestartSurvey }
+                    style={ { backgroundColor } }
+                />
+                <SurveyDialog
+                    close={ this.onCustomAnswerDialogClose }
+                    isOpen={ this.state.isCustomAnswerDialogOpen }
+                    submitAnswer={ this.onSubmitAnswer }
+                />
             </div>
         );
     }

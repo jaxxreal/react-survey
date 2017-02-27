@@ -115,10 +115,7 @@ export default class TouchSelect extends React.Component {
 
     answerQuestion(answerIdx) {
         const [answer] = this.props.options[answerIdx];
-        this.props.onAnswer([
-            this.props.question,
-            answer
-        ]);
+        this.props.onAnswer(answer);
     }
 
     selectAnswer(dropType) {
@@ -133,7 +130,10 @@ export default class TouchSelect extends React.Component {
 
     checkDrop({ pageX, pageY }, dropType) {
         const { left, right, top, bottom } = this[dropType].getBoundingClientRect();
-        return _inRange(right)(left)(pageX) && _inRange(bottom)(top)(pageY);
+        const inHorizontalRange = _inRange(right)(left);
+        const inVerticalRange = _inRange(bottom)(top);
+
+        return inHorizontalRange(pageX) && inVerticalRange(pageY);
     }
 
     render() {

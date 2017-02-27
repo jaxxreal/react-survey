@@ -1,0 +1,15 @@
+.dialog {
+    background: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    transition: visibility .3s ease-in;
+    &_open {
+        visibility: visible;
+    }
+    &__header {
+        text-align: center;
+        padding: 15px 0;
+    }
+}
