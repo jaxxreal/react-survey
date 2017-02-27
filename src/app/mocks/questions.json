@@ -1,0 +1,28 @@
+{
+  "questions": {
+    "1040": {
+      "question": "In your team, can you...",
+      "metadata": {
+        "statement": [
+          "...laugh with your colleagues?",
+          "...be yourself around here?",
+          "...ask for help",
+          "...be open with your opinions?",
+          "...count on people to cooperate?"
+        ],
+        "backgroundcolor": [
+          "#df6e9a"
+        ],
+        "yeslabel": [
+          "Always"
+        ],
+        "nolabel": [
+          "Never"
+        ],
+        "notsurelabel": [
+          "Sometimes"
+        ]
+      }
+    }
+  }
+}

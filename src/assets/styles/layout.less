@@ -1,0 +1,23 @@
+@import "mixins";
+
+html, button, input, optgroup, select, textarea {
+    box-sizing: border-box;
+    .open-sans();
+    .font-light();
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+.layout {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    &_centred {
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,40 @@
+@import "mixins";
+
+.btn {
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    border: none;
+    display: inline-block;
+    background: inherit;
+    .open-sans();
+    &_round {
+        border: 1px solid white;
+        border-radius: 50%;
+    }
+    &_transparent {
+        background: transparent;
+        color: white;
+    }
+    &_outlined {
+        border: 1px solid white;
+        color: white;
+        background: transparent;
+    }
+    &_rounded {
+        border-radius: 4px;
+    }
+    &_40 {
+        .square(40px);
+    }
+    &_uppercase {
+        text-transform: uppercase;
+    }
+    &_padded {
+        padding: 7px 10px;
+    }
+    &__content {
+        .font-light();
+        .flex-center();
+    }
+}
