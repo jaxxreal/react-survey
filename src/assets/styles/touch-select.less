@@ -1,7 +1,6 @@
 @import "mixins";
 
 .touch-select {
-    padding-top: 78px;
     &__cover {
         position: fixed;
         width: 100%;
@@ -20,7 +19,11 @@
         border-radius: 50%;
         overflow: hidden;
         font-size: 14px;
+        z-index: 1000;
         .no-select();
+        &_active {
+            background: rgba(255, 255, 255, 0.2);
+        }
     }
     &__row {
         display: flex;
@@ -31,6 +34,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
+        .no-select();
         &-text {
             text-align: center;
             &_right {

@@ -1,9 +1,11 @@
 import React, { PropTypes } from 'react';
+import cx from 'classnames';
 import _bindAll from 'lodash/bindAll';
 import _gte from 'lodash/fp/gte';
 import _subtract from 'lodash/fp/subtract';
 import _add from 'lodash/fp/add';
 import _inRange from 'lodash/fp/inRange';
+import _get from 'lodash/get';
 
 import TouchSelectOption from '../components/TouchSelectOption';
 
@@ -91,18 +93,21 @@ export default class TouchSelect extends React.Component {
     }
 
     getEventCoords(ev) {
-        if (ev.type === 'touchend') {
-            const [touch] = ev.changedTouches;
-            const { pageX, pageY } = touch;
+        if (ev.pageX || ev.pageY) {
+            const { pageX, pageY } = ev;
             return { pageX, pageY };
         }
-        if (ev.type === 'touchmove' || ev.type === 'touchstart') {
-            const [touch] = ev.touches;
-            const { pageX, pageY } = touch;
-            return { pageX, pageY };
+        if (ev.type === 'touchend' || ev.type === 'touchmove' || ev.type === 'touchstart') {
+            const touch = _get((ev.touches.length ? ev.touches : ev.changedTouches), 0);
+            return {
+                pageX: touch.pageX || 0,
+                pageY: touch.pageY || 0,
+            };
         }
-        const { pageX, pageY } = ev;
-        return { pageX, pageY };
+        return {
+            pageX: 0,
+            pageY: 0,
+        };
     }
 
     getCoords(elem) {
@@ -138,11 +143,14 @@ export default class TouchSelect extends React.Component {
 
     render() {
         const { question, options: [[nolabel], [yeslabel], [notsurelabel]] } = this.props;
-        const { x, y, isMoving } = this.state;
+        const { x, y, isMoving, debug = '' } = this.state;
         const { width, height } = swipeableSize;
 
         return (
-            <div className="touch-select">
+            <div
+                ref={ r => (this.container = r) }
+                className="touch-select"
+            >
                 <div className="touch-select__row">
                     <TouchSelectOption
                         optionRef={ r => (this.noDrop = r) }
@@ -154,12 +162,13 @@ export default class TouchSelect extends React.Component {
                     />
                     <div
                         ref={ r => (this.swipeable = r) }
-                        className="touch-select__swipeable"
+                        className={ cx('touch-select__swipeable', { 'touch-select__swipeable_active': isMoving }) }
                         onMouseDown={ this.onMouseDown }
                         onTouchStart={ this.onMouseDown }
                         style={ { top: y, left: x, width, height, position: isMoving ? 'absolute' : 'static' } }
                     >
                         { question }
+                        { debug }
                     </div>
                     <TouchSelectOption
                         optionRef={ r => (this.yesDrop = r) }

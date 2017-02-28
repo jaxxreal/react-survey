@@ -90,11 +90,11 @@ export class Survey extends Component {
         return (
             <div className="survey" style={ { backgroundColor } }>
                 <h1 className="survey__question">{ question }</h1>
-                <div className="drops">
+                <div className="progress progress_padded">
                     { statement.map((str, idx) => (
                         <div
                             key={ str }
-                            className={ cx('drops__item', { drops__item_checked: !!answers[idx] }) }
+                            className={ cx('progress__item', { progress__item_checked: !!answers[idx] }) }
                         />
                     )) }
                 </div>

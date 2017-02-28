@@ -8,12 +8,13 @@ export default class AppWrapper extends Component {
 
     componentWillMount() {
         console.log('AppWrapper mounted!');
+        window.addEventListener('touchmove', e => e.preventDefault());
     }
 
     render() {
         const { metadata, question } = dataMock.questions[1040];
         return (
-            <div className="layout layout_centred">
+            <div className="layout">
                 <div className="main">
                     <Survey
                         question={ question }

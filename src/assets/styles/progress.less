@@ -1,11 +1,15 @@
 @import "mixins";
 
-.drops {
+.progress {
     display: flex;
     align-items: center;
     justify-content: space-around;
     flex-direction: column;
-    height: 20%;
+    height: 30%;
+    .no-select();
+    &_padded {
+        padding: 20px 0;
+    }
     &__item {
         @color: rgba(255, 255, 255, 0.7);
         display: block;
