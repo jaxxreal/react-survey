@@ -1,4 +1,4 @@
-# react-survey [![Maintainability](https://api.codeclimate.com/v1/badges/5b1d51551ce1b1bb47f2/maintainability)](https://codeclimate.com/github/jaxxreal/react-survey/maintainability)
+# react-survey [![Maintainability](https://api.codeclimate.com/v1/badges/5b1d51551ce1b1bb47f2/maintainability)](https://codeclimate.com/github/jaxxreal/react-survey/maintainability) [![Greenkeeper badge](https://badges.greenkeeper.io/jaxxreal/react-survey.svg)](https://greenkeeper.io/)
 
 Don't forget to switch in mobile mode, because it stands as mobile application page.
 
